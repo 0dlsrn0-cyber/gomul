@@ -1,0 +1,30 @@
+{
+  "_help": "광주 4개 업체 단가나 전국 평균값을 직접 입력하면 자동 추정값 대신 이 값이 우선 사용됩니다. 입력하지 않은 품목은 LME × 비율로 자동 계산됩니다.",
+  "_format_example": {
+    "copper-a": {
+      "gwangju": 12600,
+      "scrapAvg": 12500,
+      "scrapMin": { "price": 12000, "region": "경북 구미" },
+      "scrapMax": { "price": 13000, "region": "서울 강서구" },
+      "vendors": [
+        { "name": "대성자원 (서구 금호동)",  "price": 12750 },
+        { "name": "상록재활용 (북구 운암동)","price": 12650 },
+        { "name": "동양자원 (광산구 송정동)","price": 12550 },
+        { "name": "중앙상회 (남구 봉선동)",  "price": 12450 }
+      ]
+    }
+  },
+  "_available_ids": [
+    "copper-a", "copper-b", "copper-c",
+    "wire-hv-a", "wire-hv-b", "wire-bare", "wire-comm", "wire-medium", "wire-coated",
+    "motor",
+    "al-profile", "al-plate", "al-frame", "al-cast", "al-powder",
+    "iron-heavy", "iron-light", "iron-misc",
+    "stainless", "brass", "brass-cast", "phosphor-bronze", "nickel-silver", "lead", "car-battery",
+    "silver", "gold", "zinc", "nickel", "platinum", "palladium"
+  ],
+
+  "items": {
+
+  }
+}

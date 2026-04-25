@@ -1,0 +1,21 @@
+{
+  "name": "강성헌·박순금 부부 고물상 매입시세",
+  "short_name": "고물시세",
+  "description": "한국 고물 매입가·광주 시세·적정 매입가 트래킹 (내부용)",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07090F",
+  "theme_color": "#0B0F1A",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "finance", "utilities"]
+}
