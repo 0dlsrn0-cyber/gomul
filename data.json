@@ -1,22 +1,22 @@
 {
-  "today": "2026-05-13",
-  "generated_at": "2026-05-13T07:08:09+09:00",
+  "today": "2026-05-14",
+  "generated_at": "2026-05-14T07:06:22+09:00",
   "status": {
     "ok": true,
     "warnings": [
-      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7f0846999610>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
+      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7f002541ce50>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
     ],
     "errors": []
   },
   "source": {
-    "usd_krw": 1492.239990234375,
+    "usd_krw": 1489.3900146484375,
     "allmetal_ok": true,
     "allmetal_count": 24,
-    "allmetal_post_date": "2026-05-07",
-    "allmetal_post_age_days": 6,
+    "allmetal_post_date": "2026-05-13",
+    "allmetal_post_age_days": 1,
     "directscrap_ok": true,
     "directscrap_count": 11,
-    "directscrap_data_date": "2026-05-13",
+    "directscrap_data_date": "2026-05-14",
     "korean_merged_count": 24,
     "nonferrous_ok": false,
     "nonferrous_count": 0,
@@ -33,39 +33,38 @@
       "colorFrom": "#F0A95C",
       "colorTo": "#8B4513",
       "unit": "원/kg",
-      "raw": 19332,
-      "change": 0.0,
-      "scrapAvg": 17721,
+      "raw": 20412,
+      "change": 5.6,
+      "scrapAvg": 18711,
       "scrapMin": {
-        "price": 16481,
+        "price": 17401,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 18607,
+        "price": 19647,
         "region": "서울 강서구"
       },
-      "gwangju": 17900,
+      "gwangju": 18900,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 18115
+          "price": 19127
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 17972
+          "price": 18976
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 17757
+          "price": 18749
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 17506
+          "price": 18484
         }
       ],
       "history": [
-        17269,
         17321,
         17326,
         17326,
@@ -154,7 +153,8 @@
         17900,
         17900,
         17900,
-        17900
+        17900,
+        18900
       ]
     },
     {
@@ -166,39 +166,38 @@
       "colorFrom": "#D69150",
       "colorTo": "#6B3410",
       "unit": "원/kg",
-      "raw": 18252,
-      "change": 0.0,
-      "scrapAvg": 16731,
+      "raw": 19440,
+      "change": 6.5,
+      "scrapAvg": 17820,
       "scrapMin": {
-        "price": 15560,
+        "price": 16573,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 17568,
+        "price": 18711,
         "region": "서울 강서구"
       },
-      "gwangju": 16900,
+      "gwangju": 18000,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 17103
+          "price": 18216
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 16968
+          "price": 18072
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 16765
+          "price": 17856
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 16528
+          "price": 17604
         }
       ],
       "history": [
-        15088,
         15132,
         15318,
         15096,
@@ -287,7 +286,8 @@
         16900,
         16900,
         16900,
-        16900
+        16900,
+        18000
       ]
     },
     {
@@ -299,39 +299,38 @@
       "colorFrom": "#A87040",
       "colorTo": "#4A2410",
       "unit": "원/kg",
-      "raw": 17064,
-      "change": 0.0,
-      "scrapAvg": 15642,
+      "raw": 17928,
+      "change": 5.1,
+      "scrapAvg": 16434,
       "scrapMin": {
-        "price": 14547,
+        "price": 15284,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 16424,
+        "price": 17256,
         "region": "서울 강서구"
       },
-      "gwangju": 15800,
+      "gwangju": 16600,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 15990
+          "price": 16799
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 15863
+          "price": 16666
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 15674
+          "price": 16467
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 15452
+          "price": 16235
         }
       ],
       "history": [
-        17309,
         17200,
         16984,
         17145,
@@ -420,7 +419,8 @@
         15800,
         15800,
         15800,
-        15800
+        15800,
+        16600
       ]
     },
     {
@@ -432,39 +432,38 @@
       "colorFrom": "#E5B47A",
       "colorTo": "#8C5520",
       "unit": "원/kg",
-      "raw": 13824,
-      "change": 0.0,
-      "scrapAvg": 12672,
+      "raw": 14040,
+      "change": 1.6,
+      "scrapAvg": 12870,
       "scrapMin": {
-        "price": 11785,
+        "price": 11969,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 13306,
+        "price": 13514,
         "region": "서울 강서구"
       },
-      "gwangju": 12800,
+      "gwangju": 13000,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 12954
+          "price": 13156
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 12851
+          "price": 13052
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 12698
+          "price": 12896
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 12518
+          "price": 12714
         }
       ],
       "history": [
-        12654,
         12509,
         12333,
         12398,
@@ -553,7 +552,8 @@
         12800,
         12800,
         12800,
-        12800
+        12800,
+        13000
       ]
     },
     {
@@ -565,39 +565,38 @@
       "colorFrom": "#D5A065",
       "colorTo": "#7A4515",
       "unit": "원/kg",
-      "raw": 12420,
-      "change": 0.0,
-      "scrapAvg": 11385,
+      "raw": 12744,
+      "change": 2.6,
+      "scrapAvg": 11682,
       "scrapMin": {
-        "price": 10588,
+        "price": 10864,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 11954,
+        "price": 12266,
         "region": "서울 강서구"
       },
-      "gwangju": 11500,
+      "gwangju": 11800,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 11638
+          "price": 11942
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 11546
+          "price": 11847
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 11408
+          "price": 11706
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 11247
+          "price": 11540
         }
       ],
       "history": [
-        11135,
         11197,
         11162,
         11044,
@@ -686,7 +685,8 @@
         11500,
         11500,
         11500,
-        11500
+        11500,
+        11800
       ]
     },
     {
@@ -698,39 +698,38 @@
       "colorFrom": "#E2A55C",
       "colorTo": "#7A3D11",
       "unit": "원/kg",
-      "raw": 11232,
-      "change": 0.0,
-      "scrapAvg": 10296,
+      "raw": 11880,
+      "change": 5.8,
+      "scrapAvg": 10890,
       "scrapMin": {
-        "price": 9575,
+        "price": 10128,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 10811,
+        "price": 11434,
         "region": "서울 강서구"
       },
-      "gwangju": 10400,
+      "gwangju": 11000,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 10525
+          "price": 11132
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 10442
+          "price": 11044
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 10317
+          "price": 10912
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 10171
+          "price": 10758
         }
       ],
       "history": [
-        9782,
         9894,
         9830,
         9850,
@@ -819,7 +818,8 @@
         10400,
         10400,
         10400,
-        10400
+        10400,
+        11000
       ]
     },
     {
@@ -831,39 +831,38 @@
       "colorFrom": "#C28855",
       "colorTo": "#5A3010",
       "unit": "원/kg",
-      "raw": 6480,
-      "change": 0.0,
-      "scrapAvg": 5940,
+      "raw": 6912,
+      "change": 6.7,
+      "scrapAvg": 6336,
       "scrapMin": {
-        "price": 5524,
+        "price": 5892,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 6237,
+        "price": 6653,
         "region": "서울 강서구"
       },
-      "gwangju": 6000,
+      "gwangju": 6400,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 6072
+          "price": 6477
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 6024
+          "price": 6426
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 5952
+          "price": 6349
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 5868
+          "price": 6259
         }
       ],
       "history": [
-        6236,
         6302,
         6322,
         6246,
@@ -952,7 +951,8 @@
         6000,
         6000,
         6000,
-        6000
+        6000,
+        6400
       ]
     },
     {
@@ -964,39 +964,38 @@
       "colorFrom": "#B5814A",
       "colorTo": "#4F2A12",
       "unit": "원/kg",
-      "raw": 6372,
-      "change": 0.0,
-      "scrapAvg": 5841,
+      "raw": 6696,
+      "change": 5.1,
+      "scrapAvg": 6138,
       "scrapMin": {
-        "price": 5432,
+        "price": 5708,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 6133,
+        "price": 6445,
         "region": "서울 강서구"
       },
-      "gwangju": 5900,
+      "gwangju": 6200,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 5971
+          "price": 6274
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 5924
+          "price": 6225
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 5853
+          "price": 6150
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 5770
+          "price": 6064
         }
       ],
       "history": [
-        5551,
         5515,
         5592,
         5572,
@@ -1085,7 +1084,8 @@
         5900,
         5900,
         5900,
-        5900
+        5900,
+        6200
       ]
     },
     {
@@ -1097,39 +1097,38 @@
       "colorFrom": "#B07845",
       "colorTo": "#3A2818",
       "unit": "원/kg",
-      "raw": 4104,
-      "change": 0.0,
-      "scrapAvg": 3762,
+      "raw": 4536,
+      "change": 10.5,
+      "scrapAvg": 4158,
       "scrapMin": {
-        "price": 3499,
+        "price": 3867,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 3950,
+        "price": 4366,
         "region": "서울 강서구"
       },
-      "gwangju": 3800,
+      "gwangju": 4200,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 3846
+          "price": 4250
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 3815
+          "price": 4217
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 3770
+          "price": 4166
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 3716
+          "price": 4108
         }
       ],
       "history": [
-        4176,
         4215,
         4266,
         4261,
@@ -1218,7 +1217,8 @@
         3800,
         3800,
         3800,
-        3800
+        3800,
+        4200
       ]
     },
     {
@@ -1262,7 +1262,6 @@
         }
       ],
       "history": [
-        996,
         995,
         1004,
         990,
@@ -1351,6 +1350,7 @@
         870,
         870,
         870,
+        870,
         870
       ]
     },
@@ -1395,7 +1395,6 @@
         }
       ],
       "history": [
-        3954,
         4009,
         4007,
         4027,
@@ -1484,6 +1483,7 @@
         4100,
         4100,
         4100,
+        4100,
         4100
       ]
     },
@@ -1528,7 +1528,6 @@
         }
       ],
       "history": [
-        3402,
         3378,
         3339,
         3358,
@@ -1617,6 +1616,7 @@
         3900,
         3900,
         3900,
+        3900,
         3900
       ]
     },
@@ -1661,7 +1661,6 @@
         }
       ],
       "history": [
-        3710,
         3668,
         3614,
         3656,
@@ -1750,6 +1749,7 @@
         3800,
         3800,
         3800,
+        3800,
         3800
       ]
     },
@@ -1794,7 +1794,6 @@
         }
       ],
       "history": [
-        2683,
         2721,
         2729,
         2765,
@@ -1883,6 +1882,7 @@
         3500,
         3500,
         3500,
+        3500,
         3500
       ]
     },
@@ -1927,7 +1927,6 @@
         }
       ],
       "history": [
-        2175,
         2189,
         2162,
         2150,
@@ -2016,6 +2015,7 @@
         3200,
         3200,
         3200,
+        3200,
         3200
       ]
     },
@@ -2060,7 +2060,6 @@
         }
       ],
       "history": [
-        337,
         336,
         333,
         331,
@@ -2149,6 +2148,7 @@
         320,
         320,
         320,
+        320,
         320
       ]
     },
@@ -2193,7 +2193,6 @@
         }
       ],
       "history": [
-        315,
         314,
         312,
         310,
@@ -2282,6 +2281,7 @@
         300,
         300,
         300,
+        300,
         300
       ]
     },
@@ -2326,7 +2326,6 @@
         }
       ],
       "history": [
-        396,
         397,
         398,
         399,
@@ -2415,6 +2414,7 @@
         380,
         380,
         380,
+        380,
         380
       ]
     },
@@ -2459,7 +2459,6 @@
         }
       ],
       "history": [
-        1527,
         1510,
         1506,
         1494,
@@ -2548,6 +2547,7 @@
         1600,
         1600,
         1600,
+        1600,
         1600
       ]
     },
@@ -2560,39 +2560,38 @@
       "colorFrom": "#E8C275",
       "colorTo": "#8B6914",
       "unit": "원/kg",
-      "raw": 11556,
-      "change": 0.0,
-      "scrapAvg": 10593,
+      "raw": 11880,
+      "change": 2.8,
+      "scrapAvg": 10890,
       "scrapMin": {
-        "price": 9851,
+        "price": 10128,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 11123,
+        "price": 11434,
         "region": "서울 강서구"
       },
-      "gwangju": 10700,
+      "gwangju": 11000,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 10828
+          "price": 11132
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 10743
+          "price": 11044
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 10614
+          "price": 10912
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 10465
+          "price": 10758
         }
       ],
       "history": [
-        9748,
         9747,
         9892,
         10017,
@@ -2681,7 +2680,8 @@
         10700,
         10700,
         10700,
-        10700
+        10700,
+        11000
       ]
     },
     {
@@ -2693,39 +2693,38 @@
       "colorFrom": "#C9A55A",
       "colorTo": "#6F4E10",
       "unit": "원/kg",
-      "raw": 11124,
-      "change": 0.0,
-      "scrapAvg": 10197,
+      "raw": 11448,
+      "change": 2.9,
+      "scrapAvg": 10494,
       "scrapMin": {
-        "price": 9483,
+        "price": 9759,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 10707,
+        "price": 11019,
         "region": "서울 강서구"
       },
-      "gwangju": 10300,
+      "gwangju": 10600,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 10424
+          "price": 10727
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 10341
+          "price": 10642
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 10218
+          "price": 10515
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 10073
+          "price": 10367
         }
       ],
       "history": [
-        9266,
         9376,
         9281,
         9332,
@@ -2814,7 +2813,8 @@
         10300,
         10300,
         10300,
-        10300
+        10300,
+        10600
       ]
     },
     {
@@ -2826,39 +2826,38 @@
       "colorFrom": "#B5814E",
       "colorTo": "#4A2D14",
       "unit": "원/kg",
-      "raw": 18900,
-      "change": 0.0,
-      "scrapAvg": 17325,
+      "raw": 19116,
+      "change": 1.1,
+      "scrapAvg": 17523,
       "scrapMin": {
-        "price": 16112,
+        "price": 16296,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 18191,
+        "price": 18399,
         "region": "서울 강서구"
       },
-      "gwangju": 17500,
+      "gwangju": 17700,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 17710
+          "price": 17912
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 17570
+          "price": 17771
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 17360
+          "price": 17558
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 17115
+          "price": 17311
         }
       ],
       "history": [
-        17118,
         16889,
         17134,
         17370,
@@ -2947,7 +2946,8 @@
         17500,
         17500,
         17500,
-        17500
+        17500,
+        17700
       ]
     },
     {
@@ -2991,7 +2991,6 @@
         }
       ],
       "history": [
-        10432,
         10442,
         10540,
         10677,
@@ -3080,6 +3079,7 @@
         10700,
         10700,
         10700,
+        10700,
         10700
       ]
     },
@@ -3124,7 +3124,6 @@
         }
       ],
       "history": [
-        1416,
         1435,
         1446,
         1427,
@@ -3213,6 +3212,7 @@
         1500,
         1500,
         1500,
+        1500,
         1500
       ]
     },
@@ -3257,7 +3257,6 @@
         }
       ],
       "history": [
-        597,
         600,
         608,
         600,
@@ -3346,6 +3345,7 @@
         650,
         650,
         650,
+        650,
         650
       ]
     },
@@ -3358,39 +3358,38 @@
       "colorFrom": "#F0F4F9",
       "colorTo": "#8E9AA6",
       "unit": "원/kg",
-      "raw": 4183802,
-      "change": 1.6,
-      "scrapAvg": 3727768,
+      "raw": 4221302,
+      "change": 0.9,
+      "scrapAvg": 3761180,
       "scrapMin": {
-        "price": 3466824,
+        "price": 3497897,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 3914156,
+        "price": 3949239,
         "region": "서울 강서구"
       },
-      "gwangju": 3765422,
+      "gwangju": 3799172,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 3810607
+          "price": 3844762
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 3780484
+          "price": 3814369
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 3735299
+          "price": 3768779
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 3682583
+          "price": 3715590
         }
       ],
       "history": [
-        3051881,
         3076023,
         3099585,
         3059534,
@@ -3479,7 +3478,8 @@
         3399817,
         3419575,
         3706807,
-        3765422
+        3765422,
+        3799172
       ]
     },
     {
@@ -3491,39 +3491,38 @@
       "colorFrom": "#FFD700",
       "colorTo": "#8B6914",
       "unit": "원/kg",
-      "raw": 226574436,
-      "change": 0.6,
-      "scrapAvg": 217579431,
+      "raw": 224920642,
+      "change": -0.7,
+      "scrapAvg": 215991293,
       "scrapMin": {
-        "price": 202348871,
+        "price": 200871902,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 228458403,
+        "price": 226790858,
         "region": "서울 강서구"
       },
-      "gwangju": 219777203,
+      "gwangju": 218173023,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 222414529
+          "price": 220791099
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 220656312
+          "price": 219045715
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 218018985
+          "price": 216427639
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 214942105
+          "price": 213373216
         }
       ],
       "history": [
-        251081131,
         253990652,
         256171146,
         254435188,
@@ -3612,7 +3611,8 @@
         215146587,
         215608688,
         218411531,
-        219777203
+        219777203,
+        218173023
       ]
     },
     {
@@ -3656,7 +3656,6 @@
         }
       ],
       "history": [
-        2927,
         2950,
         2966,
         2934,
@@ -3745,6 +3744,7 @@
         2800,
         2800,
         2800,
+        2800,
         2800
       ]
     },
@@ -3789,7 +3789,6 @@
         }
       ],
       "history": [
-        21756,
         21557,
         21644,
         21918,
@@ -3878,6 +3877,7 @@
         23000,
         23000,
         23000,
+        23000,
         23000
       ]
     },
@@ -3890,39 +3890,38 @@
       "colorFrom": "#E8E8EC",
       "colorTo": "#9CA3AF",
       "unit": "원/kg",
-      "raw": 103005824,
-      "change": 0.8,
-      "scrapAvg": 97896735,
+      "raw": 103460338,
+      "change": 0.4,
+      "scrapAvg": 98328705,
       "scrapMin": {
-        "price": 91043964,
+        "price": 91445696,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 102791572,
+        "price": 103245140,
         "region": "서울 강서구"
       },
-      "gwangju": 98885591,
+      "gwangju": 99321924,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 100072218
+          "price": 100513787
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 99281133
+          "price": 99719212
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 98094506
+          "price": 98527349
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 96710108
+          "price": 97136842
         }
       ],
       "history": [
-        98065318,
         96644939,
         96949497,
         97846962,
@@ -4011,7 +4010,8 @@
         92345435,
         92888075,
         98086359,
-        98885591
+        98885591,
+        99321924
       ]
     },
     {
@@ -4023,39 +4023,38 @@
       "colorFrom": "#D8D9E0",
       "colorTo": "#7A8090",
       "unit": "원/kg",
-      "raw": 72468699,
-      "change": 0.0,
-      "scrapAvg": 67439371,
+      "raw": 72689431,
+      "change": 0.3,
+      "scrapAvg": 67644784,
       "scrapMin": {
-        "price": 62718615,
+        "price": 62909649,
         "region": "경북 구미"
       },
       "scrapMax": {
-        "price": 70811340,
+        "price": 71027023,
         "region": "서울 강서구"
       },
-      "gwangju": 68120577,
+      "gwangju": 68328065,
       "defaultMargin": 0.8,
       "vendors": [
         {
           "name": "대성자원 (서구 금호동)",
-          "price": 68938024
+          "price": 69148002
         },
         {
           "name": "상록재활용 (북구 운암동)",
-          "price": 68393059
+          "price": 68601377
         },
         {
           "name": "동양자원 (광산구 송정동)",
-          "price": 67575612
+          "price": 67781440
         },
         {
           "name": "중앙상회 (남구 봉선동)",
-          "price": 66621924
+          "price": 66824848
         }
       ],
       "history": [
-        70603151,
         70852760,
         70096080,
         70169726,
@@ -4144,7 +4143,8 @@
         65484087,
         65711521,
         68105092,
-        68120577
+        68120577,
+        68328065
       ]
     }
   ]
