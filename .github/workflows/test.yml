@@ -1,0 +1,61 @@
+name: 테스트 (크롤러 파서)
+
+on:
+  push:
+    paths:
+      - 'crawler/**'
+      - 'requirements*.txt'
+      - '.github/workflows/test.yml'
+      - 'index.html'
+      - 'app.js'
+      - 'data.js'
+      - 'tailwind.config.js'
+      - 'tailwind-input.css'
+      - 'tailwind.css'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Python 3.11 셋업
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 의존성 설치(dev)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: 파서 테스트
+        run: pytest crawler/tests -q
+
+  tailwind-fresh:
+    # 런타임 CDN을 없앴으므로 커밋된 tailwind.css 가 최신이어야 한다.
+    # 누군가 클래스를 바꾸고 build:css 를 안 하면 여기서 큰 소리로 실패시킨다.
+    runs-on: ubuntu-latest
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node 20 셋업
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: tailwind.css 최신 여부 확인
+        run: |
+          npm install --no-save tailwindcss@3.4.17
+          npx tailwindcss -c tailwind.config.js -i tailwind-input.css -o tailwind.css --minify
+          if ! git diff --quiet -- tailwind.css; then
+            echo "::error::tailwind.css 가 최신이 아닙니다. 로컬에서 'npm run build:css' 후 커밋하세요."
+            git diff --stat -- tailwind.css
+            exit 1
+          fi
+          echo "tailwind.css 최신 OK"

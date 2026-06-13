@@ -8,14 +8,17 @@
   const fmt = (n) => new Intl.NumberFormat('ko-KR').format(Math.round(n));
 
   // 타일에서 사용할 압축 표기 (큰 숫자는 만/억으로 줄여서 폰트를 키워도 안 깨지게)
+  // 밴드를 빈틈없이 이어 붙이고 floor 대신 round 로 체계적 과소표시를 막음.
+  // 정확한 값은 상세 화면에서 fmt()로 전체 표기되므로 타일은 '한눈에' 용도.
   const fmtTile = (n) => {
     n = Math.round(n);
     if (n >= 100000000) {
-      const eok = n / 100000000;
-      return eok.toFixed(2).replace(/\.?0+$/, '') + '억';
+      // 1억 이상 → 'N.NN억'
+      return (n / 100000000).toFixed(2).replace(/\.?0+$/, '') + '억';
     }
-    if (n >= 1000000) {
-      return Math.floor(n / 10000).toLocaleString('ko-KR') + '만';
+    if (n >= 100000) {
+      // 10만 ~ 1억 → 'N만' (반올림)
+      return Math.round(n / 10000).toLocaleString('ko-KR') + '만';
     }
     return n.toLocaleString('ko-KR');
   };
@@ -23,6 +26,11 @@
     `${d.getFullYear()}. ${String(d.getMonth() + 1).padStart(2, '0')}. ${String(
       d.getDate()
     ).padStart(2, '0')}.`;
+  // 'YYYY-MM-DD' — historyDates 와 비교/표시에 사용
+  const ymd = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+      d.getDate()
+    ).padStart(2, '0')}`;
 
   const marginKey = (id) => `margin:${id}`;
   const getMargin = (item) => {
@@ -87,11 +95,14 @@
            style="background:${hexA(item.colorFrom, 0.6)}"></div>
       <div class="relative flex items-start justify-between gap-2">
         <div class="min-w-0">
-          <div class="text-xl font-bold tracking-tight leading-tight">${item.name}</div>
+          <div class="flex items-center gap-1.5">
+            <div class="text-xl font-bold tracking-tight leading-tight">${item.name}</div>
+            ${item.priceEstimated ? '<span class="shrink-0 text-[9px] px-1.5 py-0.5 rounded-full bg-amber-400/15 text-amber-300/90 ring-1 ring-amber-400/25">추정</span>' : ''}
+          </div>
           <div class="text-xs text-slate-400 mt-1">${item.subtitle}</div>
         </div>
         <span class="shrink-0 text-[11px] ${trendColor} tabular-nums whitespace-nowrap mt-0.5">
-          ${trendSign} ${Math.abs(item.change).toFixed(1)}%
+          ${trendSign} ${Math.abs(item.change || 0).toFixed(1)}%
         </span>
       </div>
       <div class="relative mt-3 pt-3 border-t border-white/5 space-y-1.5">
@@ -163,6 +174,19 @@
     $('#detail-raw').textContent = fmt(it.raw);
     $('#detail-unit').textContent = it.unit;
 
+    // 원청가 라벨 — 진짜 LME면 'LME 국제가', 아니면 '참고 추정가'(매입가×1.08)
+    const rawLabelEl = $('#detail-raw-label');
+    if (rawLabelEl) {
+      rawLabelEl.textContent = it.rawSource === 'LME' ? 'LME 국제가' : '참고 추정가';
+    }
+    const rawNoteEl = $('#detail-raw-note');
+    if (rawNoteEl) {
+      rawNoteEl.textContent = it.rawSource === 'LME' ? '' : '매입가 기준 추정치';
+    }
+    // 품목명 옆 추정 배지 (관측 시세가 아닌 LME추정/폴백일 때)
+    const estBadge = $('#detail-est-badge');
+    if (estBadge) estBadge.classList.toggle('hidden', !it.priceEstimated);
+
     const changeEl = $('#detail-change');
     if (it.change > 0) {
       changeEl.className = 'text-xs px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-400/20';
@@ -188,54 +212,77 @@
     $('#margin-ratio').textContent = margin.toFixed(2);
     $('#margin-slider').value = Math.round(margin * 100);
 
+    // 이력 배열 (실측만 누적됨) — 빈/짧은 경우 방어
+    const hist = Array.isArray(it.history) ? it.history : [];
+    const histDates = Array.isArray(it.historyDates) ? it.historyDates : [];
+    const histSrc = Array.isArray(it.historySource) ? it.historySource : [];
+    const todayYMD = ymd(TODAY);
+
     // 최근 7일 일별 단가 (최신 → 과거 순)
-    const recent7 = it.history.slice(-7).reverse();
+    const recent7 = hist.slice(-7).reverse();
+    const recent7Dates = histDates.slice(-7).reverse();
+    const recent7Src = histSrc.slice(-7).reverse();
     const recent7Box = $('#recent-7days');
     recent7Box.innerHTML = '';
-    recent7.forEach((price, idx) => {
-      const d = new Date(TODAY);
-      d.setDate(d.getDate() - idx);
-      const dateLabel = `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, '0')}`;
-      const isToday = idx === 0;
 
-      // 전일 대비 (recent7는 최신 우선이므로 다음 인덱스가 전일)
-      const prevPrice = idx < recent7.length - 1 ? recent7[idx + 1] : null;
-      let changeText = '—';
-      let changeClass = 'text-slate-500';
-      if (prevPrice && prevPrice > 0) {
-        const ch = ((price - prevPrice) / prevPrice) * 100;
-        if (ch > 0) {
-          changeText = `▲ ${ch.toFixed(1)}%`;
-          changeClass = 'text-emerald-400';
-        } else if (ch < 0) {
-          changeText = `▼ ${Math.abs(ch).toFixed(1)}%`;
-          changeClass = 'text-rose-400';
+    if (recent7.length === 0) {
+      recent7Box.innerHTML = `
+        <div class="px-5 py-6 text-center text-sm text-slate-500">
+          아직 실측 데이터가 없습니다 · 매일 1포인트씩 쌓입니다
+        </div>`;
+    } else {
+      recent7.forEach((price, idx) => {
+        const dStr = recent7Dates[idx];
+        let d;
+        if (dStr) {
+          d = new Date(dStr);
         } else {
-          changeText = '— 보합';
+          d = new Date(TODAY);
+          d.setDate(d.getDate() - idx);
         }
-      }
+        const dateLabel = `${d.getMonth() + 1}.${String(d.getDate()).padStart(2, '0')}`;
+        const isToday = dStr ? dStr === todayYMD : idx === 0;
 
-      const row = document.createElement('div');
-      row.className = 'flex items-center justify-between px-5 py-3';
-      row.innerHTML = `
-        <span class="text-sm ${isToday ? 'font-semibold text-brand-gold' : 'text-slate-300'}">
-          ${dateLabel}${isToday ? ' (오늘)' : ''}
-        </span>
-        <div class="flex items-baseline gap-4">
-          <span class="text-base tabular-nums ${isToday ? 'font-bold text-white' : 'text-slate-200'}">${fmt(price)}</span>
-          <span class="text-xs ${changeClass} tabular-nums w-16 text-right">${changeText}</span>
-        </div>
-      `;
-      recent7Box.appendChild(row);
-    });
+        // 전일 대비 — 같은 소스 연속일 때만 (소스 전환 가짜 변동 방지)
+        const prevPrice = idx < recent7.length - 1 ? recent7[idx + 1] : null;
+        const sameSrc = recent7Src[idx] && recent7Src[idx] === recent7Src[idx + 1];
+        let changeText = '—';
+        let changeClass = 'text-slate-500';
+        if (prevPrice && prevPrice > 0 && sameSrc) {
+          const ch = ((price - prevPrice) / prevPrice) * 100;
+          if (ch > 0) {
+            changeText = `▲ ${ch.toFixed(1)}%`;
+            changeClass = 'text-emerald-400';
+          } else if (ch < 0) {
+            changeText = `▼ ${Math.abs(ch).toFixed(1)}%`;
+            changeClass = 'text-rose-400';
+          } else {
+            changeText = '— 보합';
+          }
+        }
 
-    // 매입 시점 분석 (30일 평균 vs 현재가, 90일 최저/최고)
-    const last30 = it.history.slice(-30);
-    const avg30 = last30.reduce((a, b) => a + b, 0) / last30.length;
-    const last90 = it.history.slice(-90);
-    const min90 = Math.min(...last90);
-    const max90 = Math.max(...last90);
-    const diffPct = ((it.gwangju - avg30) / avg30) * 100;
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between px-5 py-3';
+        row.innerHTML = `
+          <span class="text-sm ${isToday ? 'font-semibold text-brand-gold' : 'text-slate-300'}">
+            ${dateLabel}${isToday ? ' (오늘)' : ''}
+          </span>
+          <div class="flex items-baseline gap-4">
+            <span class="text-base tabular-nums ${isToday ? 'font-bold text-white' : 'text-slate-200'}">${fmt(price)}</span>
+            <span class="text-xs ${changeClass} tabular-nums w-16 text-right">${changeText}</span>
+          </div>
+        `;
+        recent7Box.appendChild(row);
+      });
+    }
+
+    // 매입 시점 분석 (30일 평균 vs 현재가, 90일 최저/최고) — 빈/짧은 이력 방어
+    const last30 = hist.slice(-30);
+    const avg30 = last30.length ? last30.reduce((a, b) => a + b, 0) / last30.length : it.gwangju;
+    const last90 = hist.slice(-90);
+    const min90 = last90.length ? Math.min(...last90) : it.gwangju;
+    const max90 = last90.length ? Math.max(...last90) : it.gwangju;
+    const diffPct = avg30 > 0 ? ((it.gwangju - avg30) / avg30) * 100 : 0;
 
     let verdict, verdictClass;
     if (diffPct < -3) {
@@ -252,7 +299,16 @@
     const diffColor =
       diffPct > 3 ? 'text-rose-400' : diffPct < -3 ? 'text-emerald-400' : 'text-slate-400';
 
+    // 실측이 아직 적게 쌓였으면(리셋 직후) 통계가 부정확할 수 있음을 안내
+    const accruing =
+      hist.length < 7
+        ? `<div class="px-5 py-3 text-[11px] text-slate-500 bg-white/[0.02]">
+             실측 ${hist.length}일 누적 중 · 매일 1포인트씩 쌓여 30·90일 통계가 정확해집니다
+           </div>`
+        : '';
+
     $('#trend-analysis').innerHTML = `
+      ${accruing}
       <div class="flex items-center justify-between px-5 py-3.5">
         <span class="text-sm text-slate-300">30일 평균</span>
         <span class="text-base tabular-nums text-slate-200">${fmt(avg30)} 원/kg</span>
@@ -289,18 +345,34 @@
   function renderChart() {
     const it = currentItem;
     const ctx = $('#price-chart').getContext('2d');
-    const series = it.history.slice(-currentRange);
+    const hist = Array.isArray(it.history) ? it.history : [];
+    const histDates = Array.isArray(it.historyDates) ? it.historyDates : [];
+    const series = hist.slice(-currentRange);
+    const seriesDates = histDates.slice(-currentRange);
+    // 날짜 라벨은 historyDates(실제 관측일)를 우선 사용. 없으면 오늘 기준 역산(구버전 호환).
     const labels = series.map((_, i) => {
-      const d = new Date(TODAY);
-      d.setDate(d.getDate() - (series.length - 1 - i));
+      const dStr = seriesDates[i];
+      let d;
+      if (dStr) {
+        d = new Date(dStr);
+      } else {
+        d = new Date(TODAY);
+        d.setDate(d.getDate() - (series.length - 1 - i));
+      }
       return `${d.getMonth() + 1}/${d.getDate()}`;
     });
+
+    // 실측 1포인트 이하면 점만 보이도록 — Chart.js 라인은 그대로 안전하게 처리됨
+    if (chart) chart.destroy();
+    if (series.length === 0) {
+      chart = null;
+      return;
+    }
 
     const gradient = ctx.createLinearGradient(0, 0, 0, 200);
     gradient.addColorStop(0, hexA(it.colorFrom, 0.35));
     gradient.addColorStop(1, hexA(it.colorFrom, 0));
 
-    if (chart) chart.destroy();
     chart = new Chart(ctx, {
       type: 'line',
       data: {

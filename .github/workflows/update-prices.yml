@@ -6,9 +6,15 @@ on:
     - cron: '0 21 * * *'   # UTC 21:00 = KST 06:00 (다음날)
   workflow_dispatch:        # GitHub UI에서 "Run workflow" 버튼으로 즉시 실행 가능
 
-# 워크플로가 repo에 commit/push 할 수 있도록 권한 부여
+# 워크플로가 repo에 commit/push 하고(데이터 발행), 오류 시 이슈를 열 수 있도록 권한 부여
 permissions:
   contents: write
+  issues: write
+
+# 수동 실행이 예약 실행과 겹쳐도 push 경쟁이 나지 않게 직렬화
+concurrency:
+  group: update-prices
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -30,10 +36,18 @@ jobs:
           pip install -r requirements.txt
 
       - name: 크롤러 실행
+        # 크롤러는 soft error(소스 일부 실패 등)가 있어도 exit 0 으로 data.json을 발행한다.
+        # 파일을 못 쓴 하드 실패만 exit 2 → 이 스텝이 실패하고 아래 '하드 실패 알림'이 동작.
         run: python crawler/crawler.py
 
       - name: 변경사항 커밋 & 푸시
+        # 크롤러 단계가 어떻게 끝났든, 새로 쓰인 data.json(오류 내용 포함)을 항상 발행한다.
+        if: always()
         run: |
+          if [ ! -f data.json ]; then
+            echo "data.json 없음 — 발행 건너뜀"
+            exit 0
+          fi
           git config user.name  "Auto Updater"
           git config user.email "actions@users.noreply.github.com"
           git add data.json
@@ -41,5 +55,57 @@ jobs:
             echo "변경 없음 — 커밋 건너뜀"
           else
             git commit -m "시세 자동 업데이트: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M KST')"
-            git push
+            # 푸시 경쟁(수동/예약 겹침) 대비: rebase 후 최대 2회 시도
+            pushed=0
+            for i in 1 2; do
+              git pull --rebase --autostash origin "${GITHUB_REF_NAME}" \
+                && git push && { echo "push 성공"; pushed=1; break; }
+              echo "push 재시도 ${i}..."
+              sleep 5
+            done
+            if [ "$pushed" != 1 ]; then
+              echo "push 실패 — 실패로 처리해 알림 단계가 동작하게 함"
+              exit 1
+            fi
           fi
+
+      - name: 데이터 오류 알림 (이슈)
+        # data.json에 status.errors가 있고, 그 파일이 '오늘자'면 이슈로 알린다.
+        # 오래된(미갱신) data.json의 옛 오류로 오탐하지 않도록 today를 대조한다.
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          [ -f data.json ] || exit 0
+          NUM_ERR=$(jq -r '.status.errors // [] | length' data.json)
+          DATA_TODAY=$(jq -r '.today // ""' data.json)
+          RUN_TODAY=$(TZ='Asia/Seoul' date +%Y-%m-%d)
+          if [ "$NUM_ERR" -eq 0 ]; then echo "오류 없음 — 알림 생략"; exit 0; fi
+          if [ "$DATA_TODAY" != "$RUN_TODAY" ]; then
+            echo "data.json이 오늘자가 아님($DATA_TODAY) — 갱신 실패는 '하드 실패 알림'이 처리"; exit 0
+          fi
+          BODY=$(jq -r '"크롤러가 data.json은 발행했지만 오류가 있습니다 (" + .today + "):\n\n"
+            + ([.status.errors[] | "- " + .] | join("\n"))
+            + (if (.status.warnings | length) > 0 then "\n\n경고:\n" + ([.status.warnings[] | "- " + .] | join("\n")) else "" end)' data.json)
+          gh label create crawler-error --color B60205 --description "크롤러 자동 오류 보고" 2>/dev/null || true
+          EXISTING=$(gh issue list --label crawler-error --state open --json number --jq '.[0].number // ""')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body "$BODY"
+          else
+            gh issue create --title "⚠️ 시세 크롤러 오류 ($DATA_TODAY)" --label crawler-error --body "$BODY"
+          fi
+
+      - name: 하드 실패 알림 (이슈)
+        # 크롤러가 data.json을 못 쓰거나 워크플로 자체가 깨진 경우.
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_TODAY=$(TZ='Asia/Seoul' date +%Y-%m-%d)
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          gh label create crawler-error --color B60205 --description "크롤러 자동 오류 보고" 2>/dev/null || true
+          gh issue create \
+            --title "❌ 시세 워크플로 실패 ($RUN_TODAY)" \
+            --label crawler-error \
+            --body "워크플로가 실패했습니다. data.json이 갱신되지 못했을 수 있습니다.
+          로그 확인: $RUN_URL"

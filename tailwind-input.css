@@ -1,0 +1,4 @@
+/* Tailwind 빌드 입력 — `npm run build:css` 가 이 파일을 tailwind.css 로 컴파일한다. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

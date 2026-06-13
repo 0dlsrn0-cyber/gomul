@@ -8,7 +8,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
-  <link rel="apple-touch-icon" href="icon.svg" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <meta name="theme-color" content="#0B0F1A" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -20,39 +20,10 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css"
   />
-  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Pretendard Variable', 'Pretendard', 'system-ui', 'sans-serif'],
-            mono: ['ui-monospace', 'SF Mono', 'Menlo', 'monospace'],
-          },
-          colors: {
-            ink: {
-              950: '#07090F',
-              900: '#0B0F1A',
-              800: '#111725',
-              700: '#1A2233',
-              600: '#2A3347',
-            },
-            brand: {
-              gold: '#E8C275',
-              copper: '#C87533',
-            },
-          },
-          boxShadow: {
-            card: '0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -20px rgba(0,0,0,0.6)',
-            glow: '0 0 0 1px rgba(232,194,117,0.25), 0 12px 30px -10px rgba(232,194,117,0.25)',
-          },
-        },
-      },
-    };
-  </script>
-
+  <!-- Tailwind: 런타임 CDN 대신 정적 빌드(tailwind.css). 클래스 바꾸면 `npm run build:css`로 재생성 -->
+  <link rel="stylesheet" href="tailwind.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -175,7 +146,10 @@
               <div class="flex items-center gap-3">
                 <div id="detail-symbol" class="h-12 w-12 rounded-2xl grid place-items-center text-xl font-semibold ring-1 ring-white/20 backdrop-blur"></div>
                 <div>
-                  <h2 id="detail-name" class="text-2xl font-semibold tracking-tight"></h2>
+                  <div class="flex items-center gap-2">
+                    <h2 id="detail-name" class="text-2xl font-semibold tracking-tight"></h2>
+                    <span id="detail-est-badge" class="hidden text-[10px] px-1.5 py-0.5 rounded-full bg-amber-400/15 text-amber-300/90 ring-1 ring-amber-400/25">추정</span>
+                  </div>
                   <p id="detail-subtitle" class="text-xs text-slate-300/80"></p>
                 </div>
               </div>
@@ -184,11 +158,12 @@
           </div>
 
           <div class="mt-6">
-            <div class="text-[11px] uppercase tracking-widest text-slate-300/80">원청 시세</div>
+            <div id="detail-raw-label" class="text-[11px] uppercase tracking-widest text-slate-300/80">원청 시세</div>
             <div class="flex items-baseline gap-2 mt-1">
               <span id="detail-raw" class="text-4xl font-semibold tabular-nums"></span>
               <span id="detail-unit" class="text-sm text-slate-300/80"></span>
             </div>
+            <div id="detail-raw-note" class="mt-1 text-[11px] text-slate-400/70"></div>
           </div>
         </div>
       </div>
@@ -289,6 +264,14 @@
   <!-- 서비스워커 등록 (HTTPS / localhost 환경에서만 동작) -->
   <script>
     if ('serviceWorker' in navigator) {
+      // 새 SW가 활성화되면(자산 버전 변경) 한 번만 새로고침해서
+      // 반쪽 업데이트(옛 app.js + 새 style.css) 상태를 방지한다.
+      let reloadedOnce = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (reloadedOnce) return;
+        reloadedOnce = true;
+        window.location.reload();
+      });
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('sw.js')

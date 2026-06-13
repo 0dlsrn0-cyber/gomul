@@ -1,23 +1,49 @@
 // 고물시세앱 Service Worker
 // 오프라인 지원 + 빠른 재방문 위해 핵심 자산 캐싱.
+// 자산(파일)을 바꾸면 CACHE_NAME 버전을 올려야 새 SW가 옛 캐시를 정리한다.
 
-const CACHE_NAME = 'gomul-v7';
+const CACHE_NAME = 'gomul-v8';
 const CORE_ASSETS = [
   './',
   './index.html',
+  './tailwind.css',
   './style.css',
   './app.js',
   './data.js',
   './manifest.json',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './icon-maskable-512.png',
+  './apple-touch-icon.png',
 ];
 
+// 캐시에 넣어도 되는 응답인지 — 성공(2xx)한 동일출처/CORS 응답만.
+// CDN의 5xx 에러페이지나 opaque(cross-origin no-cors) 응답이 캐시에 박혀
+// 영구히 잘못된 자산으로 서빙되는 것을 막는다.
+function isCacheable(res) {
+  return res && res.ok && (res.type === 'basic' || res.type === 'cors');
+}
+
+function putInCache(req, res) {
+  if (!isCacheable(res)) return;
+  const copy = res.clone();
+  caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+}
+
 self.addEventListener('install', (event) => {
+  // addAll은 하나라도 실패하면 전체 설치가 실패한다.
+  // 자산별 개별 캐싱(allSettled)으로 하나가 404여도 나머지는 캐시되게 한다.
   event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
-      .then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) =>
+      Promise.allSettled(
+        CORE_ASSETS.map((url) =>
+          fetch(url, { cache: 'no-cache' }).then((res) => {
+            if (isCacheable(res)) return cache.put(url, res);
+          })
+        )
+      ).then(() => self.skipWaiting())
+    )
   );
 });
 
@@ -44,8 +70,7 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
       fetch(req)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+          putInCache(req, res);
           return res;
         })
         .catch(() => caches.match(req))
@@ -60,8 +85,7 @@ self.addEventListener('fetch', (event) => {
         if (cached) return cached;
         return fetch(req)
           .then((res) => {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+            putInCache(req, res);
             return res;
           })
           .catch(() => cached);
@@ -74,8 +98,7 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(req)
       .then((res) => {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(req, copy));
+        putInCache(req, res);
         return res;
       })
       .catch(() => caches.match(req))

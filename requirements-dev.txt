@@ -1,0 +1,3 @@
+# 개발/테스트용 의존성 (운영 크롤러는 requirements.txt만 필요)
+-r requirements.txt
+pytest>=8.0

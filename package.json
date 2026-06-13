@@ -1,0 +1,13 @@
+{
+  "name": "gomul-sise",
+  "version": "0.1.0",
+  "private": true,
+  "description": "강성헌·박순금 부부 고물상 매입시세 PWA — 정적 사이트(빌드 산출물 tailwind.css 포함)",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i tailwind-input.css -o tailwind.css --minify"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.1",
+    "tailwindcss": "^3.4.17"
+  }
+}

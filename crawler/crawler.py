@@ -5,18 +5,26 @@
 데이터 흐름:
   1. crawler/manual_prices.json (가족 직접 입력값)
   2. crawler/sources/allmetal.py (한국 실시세 - 메인)
-  3. crawler/sources/nonferrous.py (한국비철금속협회 LME, USD/톤)
-  4. yfinance (환율 + 귀금속)
-  5. 폴백 기본값
+  3. crawler/sources/directscrap.py (한국 실시세 - 백업)
+  4. crawler/sources/nonferrous.py (한국비철금속협회 LME, USD/톤)
+  5. yfinance (환율 + 귀금속)
+  6. 폴백 기본값
 
 품목별 우선순위로 머지해서 data.json 생성.
+
+[신뢰성 원칙 — 차트/숫자가 거짓말하지 않게]
+  - history(차트용)에는 '실제로 관측된 매입가'(수동·올메탈·다이렉트스크랩)만 누적한다.
+    LME×비율 추정이나 폴백 기본값은 오늘 표시값(gwangju)으로만 쓰고 history엔 쌓지 않는다.
+  - 전일비(change)는 직전 관측치와 '같은 소스'일 때만 계산한다
+    (소스 전환 allmetal↔directscrap 으로 인한 가짜 급등락 방지).
+  - 과거 가격을 난수로 지어내지 않는다(예전 estimate_history 삭제). 실측이 하루씩 쌓인다.
+  - 각 품목에 priceSource / priceEstimated / rawSource 를 기록해 출처를 투명하게 남긴다.
+  - 발행은 항상 한다(soft error는 status에 담아 앱 배너로 노출). 알림은 워크플로가 처리.
 """
 
 from __future__ import annotations
 
-import hashlib
 import json
-import random
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -27,6 +35,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 OUTPUT_FILE = REPO_ROOT / "data.json"
 MANUAL_FILE = SCRIPT_DIR / "manual_prices.json"
+
+# Windows 콘솔(cp949)에서도 한글·기호 로그가 깨지지 않게 stdout/stderr를 UTF-8로
+try:
+    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+    sys.stderr.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+except Exception:
+    pass
 
 # 모듈 import 경로 셋업
 sys.path.insert(0, str(SCRIPT_DIR))
@@ -42,12 +57,23 @@ NOW_ISO = NOW.isoformat(timespec="seconds")
 LB_TO_KG = 0.45359237
 OZ_TO_KG = 0.0311034768  # troy ounce
 
+# ---------- 신뢰성 정책 상수 ----------
+HISTORY_MAX = 90
+# '실제로 관측된 매입가'로 인정하는 소스 (이것만 history에 누적)
+OBSERVED_SOURCES = {"수동", "올메탈", "다이렉트스크랩"}
+PRECIOUS_KEYS = {"gold", "silver", "platinum", "palladium"}
+
 
 # ============================================================
 #  Yahoo Finance: 환율 + 귀금속
 # ============================================================
-def fetch_yahoo() -> dict[str, float]:
-    """환율(USD/KRW) + 귀금속(금/은/백금/팔라듐)."""
+def fetch_yahoo() -> tuple[dict[str, float], set[str]]:
+    """환율(USD/KRW) + 귀금속(금/은/백금/팔라듐).
+
+    Returns:
+        (values, fallback_keys)
+        fallback_keys: 실시세를 못 받아 폴백 상수로 채운 key 집합 (정확도 표시용).
+    """
 
     fallbacks = {
         "usd_krw":     1400.0,
@@ -67,10 +93,11 @@ def fetch_yahoo() -> dict[str, float]:
     try:
         import yfinance as yf
     except ImportError:
-        print("  ! yfinance 미설치 — 폴백 사용")
-        return fallbacks.copy()
+        print("  ! yfinance 미설치 — 전부 폴백 사용")
+        return fallbacks.copy(), set(fallbacks.keys())
 
     out: dict[str, float] = {}
+    fb_keys: set[str] = set()
     for key, ticker in tickers.items():
         try:
             t = yf.Ticker(ticker)
@@ -81,8 +108,9 @@ def fetch_yahoo() -> dict[str, float]:
             print(f"    ✓ {ticker:8s} → {out[key]:,.4f}")
         except Exception as e:
             out[key] = fallbacks[key]
+            fb_keys.add(key)
             print(f"    ✗ {ticker:8s} FALLBACK {out[key]} ({e})")
-    return out
+    return out, fb_keys
 
 
 def usd_per_ton_to_krw_per_kg(usd_ton: float, usd_krw: float) -> int:
@@ -96,7 +124,7 @@ def usd_per_oz_to_krw_per_kg(usd_oz: float, usd_krw: float) -> int:
 
 
 # ============================================================
-#  품목 정의 (20종)
+#  품목 정의 (31종)
 # ============================================================
 # 컬럼: id, name, subtitle, category, color_from, color_to, symbol,
 #        lme_base (LME에서 매핑할 금속명 또는 None),
@@ -149,23 +177,6 @@ ITEM_RULES = [
 # ============================================================
 #  헬퍼
 # ============================================================
-def stable_seed(s: str) -> int:
-    return int(hashlib.md5(s.encode()).hexdigest(), 16) % 10**8
-
-
-def estimate_history(current_price: float, days: int = 90,
-                     volatility: float = 0.012, seed: int = 42) -> list[int]:
-    rng = random.Random(seed)
-    history = [int(round(current_price))]
-    for _ in range(days - 1):
-        drift = (rng.random() - 0.5) * volatility * 2
-        prev = history[-1] / (1 + drift)
-        history.append(int(round(prev)))
-    history.reverse()
-    history[-1] = int(round(current_price))
-    return history
-
-
 def load_json(path: Path) -> dict:
     if not path.exists():
         return {}
@@ -177,32 +188,38 @@ def load_json(path: Path) -> dict:
         return {}
 
 
-def vendors_default(gwangju: int) -> list[dict]:
-    """광주 가상 업체 4곳 — 데이터 구조 유지용 (UI는 더 이상 표시 안 함)."""
-    return [
-        {"name": "대성자원 (서구 금호동)",   "price": int(round(gwangju * 1.012))},
-        {"name": "상록재활용 (북구 운암동)", "price": int(round(gwangju * 1.004))},
-        {"name": "동양자원 (광산구 송정동)", "price": int(round(gwangju * 0.992))},
-        {"name": "중앙상회 (남구 봉선동)",   "price": int(round(gwangju * 0.978))},
-    ]
+def lme_to_krw_kg(
+    lme_usd_ton: dict, yahoo: dict, yahoo_fb_keys: set[str], nonferrous_ok: bool
+) -> tuple[dict[str, int], set[str]]:
+    """USD/톤·oz 가격을 KRW/kg으로 변환.
 
-
-def lme_to_krw_kg(lme_usd_ton: dict, yahoo: dict) -> dict[str, int]:
-    """nonferrous에서 받은 USD/톤 가격을 KRW/kg으로 변환."""
+    Returns:
+        (lme_krw, real_keys)
+        real_keys: 폴백이 아닌 '진짜 실시세'로 환산된 metal key 집합
+                   (raw 출처 'LME' vs '추정' 판정에 사용).
+    """
     krw = yahoo.get("usd_krw", 1400.0)
-    out = {}
+    krw_is_fb = "usd_krw" in yahoo_fb_keys
+    out: dict[str, int] = {}
+    real: set[str] = set()
+
+    # 비철 6종 (한국비철금속협회) — USD/톤
     for key, usd_ton in lme_usd_ton.items():
         out[key] = usd_per_ton_to_krw_per_kg(usd_ton, krw)
-    # 귀금속 (yfinance에서)
-    if "gold_oz" in yahoo:
-        out["gold"] = usd_per_oz_to_krw_per_kg(yahoo["gold_oz"], krw)
-    if "silver_oz" in yahoo:
-        out["silver"] = usd_per_oz_to_krw_per_kg(yahoo["silver_oz"], krw)
-    if "platinum_oz" in yahoo:
-        out["platinum"] = usd_per_oz_to_krw_per_kg(yahoo["platinum_oz"], krw)
-    if "palladium_oz" in yahoo:
-        out["palladium"] = usd_per_oz_to_krw_per_kg(yahoo["palladium_oz"], krw)
-    return out
+        if nonferrous_ok and not krw_is_fb:
+            real.add(key)
+
+    # 귀금속 (yfinance) — USD/oz
+    oz_map = {
+        "gold": "gold_oz", "silver": "silver_oz",
+        "platinum": "platinum_oz", "palladium": "palladium_oz",
+    }
+    for metal, oz_key in oz_map.items():
+        if oz_key in yahoo:
+            out[metal] = usd_per_oz_to_krw_per_kg(yahoo[oz_key], krw)
+            if oz_key not in yahoo_fb_keys and not krw_is_fb:
+                real.add(metal)
+    return out, real
 
 
 # ============================================================
@@ -270,8 +287,10 @@ def main() -> int:
             errors.append(f"올메탈 게시글 {post_age_days}일 묵음 (마지막: {post_date_str})")
         elif post_age_days >= 7:
             warnings.append(f"올메탈 게시글 {post_age_days}일 묵음 (마지막: {post_date_str})")
+    elif allmetal_res.get("ok"):
+        # 작성일을 못 읽으면 노후화 가드가 작동 못 하므로 명시적으로 경고
+        warnings.append("올메탈 게시글 작성일 파싱 실패 — 노후화 감지 불가")
 
-    # 둘 다 없는 경우는 위에서 errors 처리됨. 머지 후 0종이면 추가 오류
     if not korean_prices and not errors:
         errors.append("한국 시세 매칭 0종 — 양쪽 파서 모두 실패")
 
@@ -287,14 +306,22 @@ def main() -> int:
 
     # ---- 4. yfinance (환율 + 귀금속) ----
     print("[4/6] Yahoo Finance (환율 + 귀금속)")
-    yahoo = fetch_yahoo()
+    yahoo, yahoo_fb_keys = fetch_yahoo()
     print(f"   → USD/KRW = {yahoo['usd_krw']:,.2f}\n")
+    if "usd_krw" in yahoo_fb_keys:
+        warnings.append("환율(USD/KRW) yfinance 폴백 사용 — 환산값 정확도 낮음")
+    precious_fb = sorted(k.replace("_oz", "") for k in yahoo_fb_keys if k != "usd_krw")
+    if precious_fb:
+        warnings.append(f"귀금속 시세 yfinance 폴백 사용: {', '.join(precious_fb)} — 추정값")
 
-    # 통합 LME (KRW/kg) 사전
-    lme_krw = lme_to_krw_kg(lme_usd_ton, yahoo)
-    print(f"   LME 환산 KRW/kg:")
+    # 통합 LME (KRW/kg) 사전 + '진짜 실시세' key 집합
+    lme_krw, lme_real_keys = lme_to_krw_kg(
+        lme_usd_ton, yahoo, yahoo_fb_keys, nonferrous_res.get("ok", False)
+    )
+    print("   LME 환산 KRW/kg:")
     for k, v in lme_krw.items():
-        print(f"      {k:9s}: {v:>15,}")
+        tag = "" if k in lme_real_keys else " (추정)"
+        print(f"      {k:9s}: {v:>15,}{tag}")
     print()
 
     # ---- 5. 수동 입력 ----
@@ -303,20 +330,27 @@ def main() -> int:
     manual_items = manual_root.get("items", {})
     print(f"   → 수동 {len(manual_items)}종\n")
 
-    # ---- 6. 이전 data.json (히스토리 누적) ----
+    # ---- 6. 이전 data.json (history 누적) ----
     print("[6/6] 이전 data.json (history 누적용)")
     prev_root = load_json(OUTPUT_FILE)
     prev_items_by_id = {it["id"]: it for it in prev_root.get("items", [])}
-    print(f"   → 이전 {len(prev_items_by_id)}종\n")
+    prev_is_legacy = bool(prev_items_by_id) and not any(
+        isinstance(it.get("historySource"), list) for it in prev_items_by_id.values()
+    )
+    if prev_is_legacy:
+        print("   ⚠ 이전 data.json이 구 스키마(합성 history 포함) — 정직 리셋: 실측만 새로 누적\n")
+    else:
+        print(f"   → 이전 {len(prev_items_by_id)}종\n")
 
     # ============================================================
     #  품목 빌드 — 우선순위로 머지
     # ============================================================
     print("─" * 60)
-    print("품목 빌드 (우선순위: 수동 > 올메탈 > LME×비율 > 폴백)")
+    print("품목 빌드 (우선순위: 수동 > 올메탈 > 다이렉트스크랩 > LME×비율(추정) > 폴백)")
     print("─" * 60)
 
     out_items: list[dict] = []
+    estimated_items: list[str] = []
 
     for rule in ITEM_RULES:
         (item_id, name, sub, cat, c1, c2, sym,
@@ -325,60 +359,80 @@ def main() -> int:
         man = manual_items.get(item_id, {}) or {}
         kor = korean_prices.get(item_id) or {}
 
-        # ---- 광주 매입가 결정 ----
+        # ---- 매입가(gwangju) + 소스 결정 ----
         if isinstance(man.get("gwangju"), (int, float)):
             gwangju = int(man["gwangju"])
-            src = "수동"
+            price_source = "수동"
         elif kor.get("price"):
             gwangju = int(kor["price"])
-            src = f"올메탈[{kor.get('label', '')[:20]}]"
+            price_source = "올메탈" if kor.get("src") == "allmetal" else "다이렉트스크랩"
         elif lme_base and lme_base in lme_krw and lme_ratio is not None:
             gwangju = int(round(lme_krw[lme_base] * lme_ratio))
-            src = f"LME×{lme_ratio}"
+            price_source = "LME추정"
         else:
             gwangju = fb_gwangju
-            src = "폴백"
+            price_source = "폴백"
 
-        # ---- 원청 (참고가) ----
+        # priceEstimated(추정 배지): '관측된 한국 매입가'가 아니면 True.
+        #   LME×비율은 실제 LME가 진짜여도 '매입가 추정'이므로 배지를 단다.
+        price_estimated = price_source not in OBSERVED_SOURCES
+        if price_estimated:
+            estimated_items.append(item_id)
+
+        # price_real_basis(차트 누적 가능 여부): 오늘 값이 '실제 데이터'에 근거하는가.
+        #   관측 매입가 + (진짜 LME/시세에 근거한) LME추정 → 누적 가능.
+        #   하드코딩 폴백, 또는 입력이 폴백인 LME추정 → 누적 안 함(차트 오염 방지).
+        if price_source in OBSERVED_SOURCES:
+            price_real_basis = True
+        elif price_source == "LME추정":
+            price_real_basis = lme_base in lme_real_keys
+        else:  # 폴백
+            price_real_basis = False
+
+        # ---- 원청(raw) + 출처 ----
         if lme_base and lme_base in lme_krw:
-            raw = lme_krw[lme_base]
+            raw = int(lme_krw[lme_base])
+            raw_source = "LME" if lme_base in lme_real_keys else "추정"
         else:
+            # 비LME 품목: 진짜 도매가가 없으므로 매입가에 8% 얹은 참고 추정치
             raw = int(round(gwangju * 1.08))
+            raw_source = "추정"
 
-        # ---- 히스토리 (이전 + 오늘) ----
+        # ---- history (실측만 누적; 구 스키마면 리셋) ----
         prev = prev_items_by_id.get(item_id)
-        if prev and isinstance(prev.get("history"), list) and prev["history"]:
-            history = list(prev["history"])
-            history.append(gwangju)
-            history = history[-90:]
+        if prev and isinstance(prev.get("historySource"), list):
+            # 손상된(직접 편집/부분 쓰기) prev 항목이 크롤러를 죽이지 않도록 방어적으로 복원.
+            # 잘못된 원소는 버려서 '항상 발행' 보장을 유지(최악의 경우 빈 배열로 self-heal).
+            history = [int(x) for x in (prev.get("history") or []) if isinstance(x, (int, float))]
+            hist_dates = [str(d) for d in (prev.get("historyDates") or []) if d is not None]
+            hist_src = [str(s) for s in (prev.get("historySource") or []) if s is not None]
         else:
-            vol = (
-                0.018 if item_id in {"silver", "gold", "platinum", "palladium"}
-                else 0.008 if cat == "철(鐵) 계열"
-                else 0.015
-            )
-            history = estimate_history(gwangju, days=90, volatility=vol,
-                                       seed=stable_seed(item_id))
+            history, hist_dates, hist_src = [], [], []
 
-        # ---- 전일비 ----
-        if len(history) >= 2 and history[-2] > 0:
+        # 세 배열 길이 정합성 방어 (꼬였으면 짧은 쪽 기준으로 자름)
+        n = min(len(history), len(hist_dates), len(hist_src))
+        history, hist_dates, hist_src = history[-n:], hist_dates[-n:], hist_src[-n:]
+
+        # 실제 데이터 근거가 있을 때만 누적. 같은 날 재실행이면 마지막 점을 갱신(중복 방지).
+        if price_real_basis:
+            if hist_dates and hist_dates[-1] == TODAY_STR:
+                history[-1], hist_src[-1] = gwangju, price_source
+            else:
+                history.append(gwangju)
+                hist_dates.append(TODAY_STR)
+                hist_src.append(price_source)
+            history = history[-HISTORY_MAX:]
+            hist_dates = hist_dates[-HISTORY_MAX:]
+            hist_src = hist_src[-HISTORY_MAX:]
+
+        # ---- 전일비(change) — 오늘이 실측 누적된 날 + 같은 소스 연속일 때만 ----
+        # 추정/폴백이라 오늘 누적 안 한 날은 history[-1]이 어제 값이라 오늘 표시값과 안 맞음 → 0(보합).
+        if price_real_basis and len(history) >= 2 and history[-2] > 0 and hist_src[-1] == hist_src[-2]:
             change_pct = round((history[-1] - history[-2]) / history[-2] * 100, 1)
         else:
             change_pct = 0.0
 
-        # ---- 전국 평균/최저/최고 (수동 > 자동 추정) ----
-        scrap_avg = int(man.get("scrapAvg") or round(gwangju * 0.99))
-        scrap_min = man.get("scrapMin") or {
-            "price": int(round(scrap_avg * 0.93)), "region": "경북 구미",
-        }
-        scrap_max = man.get("scrapMax") or {
-            "price": int(round(scrap_avg * 1.05)), "region": "서울 강서구",
-        }
-
-        # ---- 광주 업체 (구조만 유지, UI에선 미사용) ----
-        vendors = man.get("vendors") or vendors_default(gwangju)
-
-        out_items.append({
+        out_item = {
             "id": item_id,
             "name": name,
             "subtitle": sub,
@@ -387,30 +441,41 @@ def main() -> int:
             "colorFrom": c1,
             "colorTo": c2,
             "unit": "원/kg",
-            "raw": int(round(raw)),
+            "raw": raw,
+            "rawSource": raw_source,
             "change": change_pct,
-            "scrapAvg": scrap_avg,
-            "scrapMin": scrap_min,
-            "scrapMax": scrap_max,
             "gwangju": gwangju,
+            "priceSource": price_source,
+            "priceEstimated": price_estimated,
             "defaultMargin": 0.80,
-            "vendors": vendors,
             "history": history,
-        })
-        print(f"  {name:14s} {gwangju:>13,} 원/kg ({change_pct:+.1f}%)  ← {src}")
+            "historyDates": hist_dates,
+            "historySource": hist_src,
+        }
+        # 부가 필드는 '수동 입력이 있을 때만' 유지 — 가짜 업체/지역 생성 금지
+        for k in ("scrapAvg", "scrapMin", "scrapMax", "vendors"):
+            if k in man:
+                out_item[k] = man[k]
+
+        out_items.append(out_item)
+        flag = " ⚠추정" if price_estimated else ""
+        print(f"  {name:14s} {gwangju:>13,} 원/kg ({change_pct:+.1f}%)  ← {price_source}{flag}")
 
     # ---- 저장 ----
     overall_ok = len(errors) == 0
     output = {
         "today": TODAY_STR,
         "generated_at": NOW_ISO,
+        "schema": 2,
         "status": {
             "ok": overall_ok,
             "warnings": warnings,
             "errors": errors,
+            "estimated_items": estimated_items,
         },
         "source": {
             "usd_krw": yahoo.get("usd_krw"),
+            "usd_krw_fallback": "usd_krw" in yahoo_fb_keys,
             "allmetal_ok": allmetal_res.get("ok", False),
             "allmetal_count": len(allmetal_prices),
             "allmetal_post_date": post_date_str,
@@ -427,11 +492,17 @@ def main() -> int:
         "items": out_items,
     }
 
-    OUTPUT_FILE.write_text(
-        json.dumps(output, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
-    print(f"\n✅ {OUTPUT_FILE.relative_to(REPO_ROOT)} 작성 ({len(out_items)}종)")
+    try:
+        OUTPUT_FILE.write_text(
+            json.dumps(output, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except Exception as e:
+        # 파일을 못 쓰면 발행할 데이터가 없음 → 하드 실패
+        print(f"\n❌ data.json 쓰기 실패: {e}")
+        return 2
+
+    print(f"\n✅ {OUTPUT_FILE.relative_to(REPO_ROOT)} 작성 ({len(out_items)}종, 추정 {len(estimated_items)}종)")
     print()
     print("─" * 60)
     if errors:
@@ -447,8 +518,10 @@ def main() -> int:
     print("─" * 60)
     print()
 
-    # 오류 발생 시 GitHub Actions가 워크플로 실패로 인식 → 자동 알림 메일
-    return 1 if errors else 0
+    # data.json은 soft error가 있어도 항상 발행한다(앱 배너가 status.errors를 보여줌).
+    # 워크플로의 별도 단계가 status.errors/warnings를 읽어 알림(이슈)을 처리한다.
+    # 여기서는 '파일을 못 쓴 하드 실패'(return 2)만 비정상 종료로 본다.
+    return 0
 
 
 if __name__ == "__main__":

@@ -2,6 +2,13 @@
 __pycache__/
 *.pyc
 *.pyo
+.pytest_cache/
+
+# Node (빌드 도구만; 산출물 tailwind.css·icon-*.png 는 커밋한다)
+node_modules/
+
+# Claude Code 로컬 설정
+.claude/
 
 # OS
 .DS_Store
