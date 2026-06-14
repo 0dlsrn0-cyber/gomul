@@ -1,11 +1,11 @@
 {
-  "today": "2026-06-14",
-  "generated_at": "2026-06-14T06:58:40+09:00",
+  "today": "2026-06-15",
+  "generated_at": "2026-06-15T07:05:02+09:00",
   "schema": 2,
   "status": {
     "ok": true,
     "warnings": [
-      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7faa323010d0>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
+      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7f6f21506090>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
     ],
     "errors": [],
     "estimated_items": [
@@ -19,15 +19,15 @@
     ]
   },
   "source": {
-    "usd_krw": 1517.8900146484375,
+    "usd_krw": 1518.5699462890625,
     "usd_krw_fallback": false,
     "allmetal_ok": true,
     "allmetal_count": 24,
     "allmetal_post_date": "2026-06-11",
-    "allmetal_post_age_days": 3,
+    "allmetal_post_age_days": 4,
     "directscrap_ok": true,
     "directscrap_count": 11,
-    "directscrap_data_date": "2026-06-14",
+    "directscrap_data_date": "2026-06-15",
     "korean_merged_count": 24,
     "nonferrous_ok": false,
     "nonferrous_count": 0,
@@ -53,13 +53,16 @@
       "defaultMargin": 0.8,
       "history": [
         18400,
+        18400,
         18400
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -82,13 +85,16 @@
       "defaultMargin": 0.8,
       "history": [
         17500,
+        17500,
         17500
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -111,13 +117,16 @@
       "defaultMargin": 0.8,
       "history": [
         16100,
+        16100,
         16100
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -140,13 +149,16 @@
       "defaultMargin": 0.8,
       "history": [
         13000,
+        13000,
         13000
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -169,13 +181,16 @@
       "defaultMargin": 0.8,
       "history": [
         11800,
+        11800,
         11800
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -198,13 +213,16 @@
       "defaultMargin": 0.8,
       "history": [
         11000,
+        11000,
         11000
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -227,13 +245,16 @@
       "defaultMargin": 0.8,
       "history": [
         6400,
+        6400,
         6400
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -256,13 +277,16 @@
       "defaultMargin": 0.8,
       "history": [
         6200,
+        6200,
         6200
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -285,13 +309,16 @@
       "defaultMargin": 0.8,
       "history": [
         4200,
+        4200,
         4200
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -340,13 +367,16 @@
       "defaultMargin": 0.8,
       "history": [
         4100,
+        4100,
         4100
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -369,13 +399,16 @@
       "defaultMargin": 0.8,
       "history": [
         3900,
+        3900,
         3900
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -398,13 +431,16 @@
       "defaultMargin": 0.8,
       "history": [
         3800,
+        3800,
         3800
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -427,13 +463,16 @@
       "defaultMargin": 0.8,
       "history": [
         3500,
+        3500,
         3500
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -456,13 +495,16 @@
       "defaultMargin": 0.8,
       "history": [
         3200,
+        3200,
         3200
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -485,13 +527,16 @@
       "defaultMargin": 0.8,
       "history": [
         340,
+        340,
         340
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -514,13 +559,16 @@
       "defaultMargin": 0.8,
       "history": [
         330,
+        330,
         330
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -543,13 +591,16 @@
       "defaultMargin": 0.8,
       "history": [
         420,
+        420,
         420
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -572,13 +623,16 @@
       "defaultMargin": 0.8,
       "history": [
         1600,
+        1600,
         1600
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -601,13 +655,16 @@
       "defaultMargin": 0.8,
       "history": [
         10800,
+        10800,
         10800
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -630,13 +687,16 @@
       "defaultMargin": 0.8,
       "history": [
         10400,
+        10400,
         10400
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -659,13 +719,16 @@
       "defaultMargin": 0.8,
       "history": [
         18000,
+        18000,
         18000
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -714,13 +777,16 @@
       "defaultMargin": 0.8,
       "history": [
         1500,
+        1500,
         1500
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -743,13 +809,16 @@
       "defaultMargin": 0.8,
       "history": [
         650,
+        650,
         650
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -763,22 +832,25 @@
       "colorFrom": "#F0F4F9",
       "colorTo": "#8E9AA6",
       "unit": "원/kg",
-      "raw": 3311607,
+      "raw": 3318705,
       "rawSource": "LME",
-      "change": 0.0,
-      "gwangju": 2980446,
+      "change": 0.2,
+      "gwangju": 2986834,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         2980446,
-        2980446
+        2980446,
+        2986834
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "LME추정",
         "LME추정",
         "LME추정"
       ]
@@ -792,22 +864,25 @@
       "colorFrom": "#FFD700",
       "colorTo": "#8B6914",
       "unit": "원/kg",
-      "raw": 205697468,
+      "raw": 206951590,
       "rawSource": "LME",
-      "change": 0.0,
-      "gwangju": 199526544,
+      "change": 0.6,
+      "gwangju": 200743042,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         199526544,
-        199526544
+        199526544,
+        200743042
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "LME추정",
         "LME추정",
         "LME추정"
       ]
@@ -830,13 +905,16 @@
       "defaultMargin": 0.8,
       "history": [
         2800,
+        2800,
         2800
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "올메탈",
         "올메탈",
         "올메탈"
       ]
@@ -876,22 +954,25 @@
       "colorFrom": "#E8E8EC",
       "colorTo": "#9CA3AF",
       "unit": "원/kg",
-      "raw": 83411175,
+      "raw": 83595008,
       "rawSource": "LME",
-      "change": 0.0,
-      "gwangju": 80074728,
+      "change": 0.2,
+      "gwangju": 80251208,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         80074728,
-        80074728
+        80074728,
+        80251208
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "LME추정",
         "LME추정",
         "LME추정"
       ]
@@ -905,22 +986,25 @@
       "colorFrom": "#D8D9E0",
       "colorTo": "#7A8090",
       "unit": "원/kg",
-      "raw": 62280213,
+      "raw": 63055108,
       "rawSource": "LME",
-      "change": 0.0,
-      "gwangju": 58543400,
+      "change": 1.2,
+      "gwangju": 59271802,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         58543400,
-        58543400
+        58543400,
+        59271802
       ],
       "historyDates": [
         "2026-06-13",
-        "2026-06-14"
+        "2026-06-14",
+        "2026-06-15"
       ],
       "historySource": [
+        "LME추정",
         "LME추정",
         "LME추정"
       ]
