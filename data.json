@@ -1,16 +1,30 @@
 {
-  "today": "2026-10-15",
-  "generated_at": "2026-10-15T08:35:51+09:00",
+  "today": "2026-10-16",
+  "generated_at": "2026-10-16T08:29:49+09:00",
   "schema": 2,
   "status": {
     "ok": true,
     "warnings": [
-      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7f8050f901d0>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
+      "올메탈 fetch 실패 → 다이렉트스크랩 백업 11종 사용 중",
+      "한국비철금속협회 fetch 실패: fetch 실패: HTTPSConnectionPool(host='www.nonferrous.or.kr', port=443): Max retries exceeded with url: /stats/?act=sub3 (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.nonferrous.or.kr', port=443) at 0x7f6c69f8e210>, 'Connection to www.nonferrous.or.kr timed out. (connect timeout=20)'))"
     ],
     "errors": [],
     "estimated_items": [
+      "wire-hv-a",
+      "wire-hv-b",
+      "wire-bare",
+      "wire-comm",
+      "wire-medium",
+      "wire-coated",
       "motor",
+      "al-profile",
+      "al-plate",
+      "al-cast",
+      "al-powder",
+      "phosphor-bronze",
       "nickel-silver",
+      "lead",
+      "car-battery",
       "silver",
       "gold",
       "nickel",
@@ -19,16 +33,16 @@
     ]
   },
   "source": {
-    "usd_krw": 1340.489990234375,
+    "usd_krw": 1340.510009765625,
     "usd_krw_fallback": false,
-    "allmetal_ok": true,
-    "allmetal_count": 24,
-    "allmetal_post_date": "2026-10-13",
-    "allmetal_post_age_days": 2,
+    "allmetal_ok": false,
+    "allmetal_count": 0,
+    "allmetal_post_date": null,
+    "allmetal_post_age_days": null,
     "directscrap_ok": true,
     "directscrap_count": 11,
-    "directscrap_data_date": "2026-10-15",
-    "korean_merged_count": 24,
+    "directscrap_data_date": "2026-10-16",
+    "korean_merged_count": 11,
     "nonferrous_ok": false,
     "nonferrous_count": 0,
     "nonferrous_data_date": null,
@@ -48,11 +62,10 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 18000,
-      "priceSource": "올메탈",
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
-        18400,
         18400,
         18400,
         18400,
@@ -141,10 +154,10 @@
         18000,
         18000,
         18000,
+        18000,
         18000
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -233,7 +246,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -325,7 +339,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -341,11 +355,10 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 17000,
-      "priceSource": "올메탈",
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
-        17500,
         17500,
         17500,
         17500,
@@ -434,10 +447,10 @@
         17000,
         17000,
         17000,
+        17000,
         17000
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -526,7 +539,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -618,7 +632,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -634,11 +648,10 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 15600,
-      "priceSource": "올메탈",
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
-        16100,
         16100,
         16100,
         16100,
@@ -727,10 +740,10 @@
         15600,
         15600,
         15600,
+        15600,
         15600
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -819,7 +832,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -911,7 +925,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -923,12 +937,12 @@
       "colorFrom": "#E5B47A",
       "colorTo": "#8C5520",
       "unit": "원/kg",
-      "raw": 13500,
+      "raw": 13824,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 12500,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 12800,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         13000,
@@ -1220,8 +1234,8 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 11500,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         11800,
@@ -1509,12 +1523,12 @@
       "colorFrom": "#E2A55C",
       "colorTo": "#7A3D11",
       "unit": "원/kg",
-      "raw": 11340,
+      "raw": 11232,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 10500,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 10400,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         11000,
@@ -1802,12 +1816,12 @@
       "colorFrom": "#C28855",
       "colorTo": "#5A3010",
       "unit": "원/kg",
-      "raw": 6588,
+      "raw": 6480,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 6100,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 6000,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         6400,
@@ -2095,12 +2109,12 @@
       "colorFrom": "#B5814A",
       "colorTo": "#4F2A12",
       "unit": "원/kg",
-      "raw": 6480,
+      "raw": 6372,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 6000,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 5900,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         6200,
@@ -2392,8 +2406,8 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 3800,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         4200,
@@ -2710,12 +2724,12 @@
       "colorFrom": "#E0E5EA",
       "colorTo": "#7B8794",
       "unit": "원/kg",
-      "raw": 3780,
+      "raw": 4104,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 3500,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 3800,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         3800,
@@ -3003,12 +3017,12 @@
       "colorFrom": "#D6DCE2",
       "colorTo": "#76828F",
       "unit": "원/kg",
-      "raw": 3672,
+      "raw": 3996,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 3400,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 3700,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         3700,
@@ -3296,11 +3310,11 @@
       "colorFrom": "#D6D9DE",
       "colorTo": "#7B8794",
       "unit": "원/kg",
-      "raw": 3456,
+      "raw": 2700,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 3200,
-      "priceSource": "올메탈",
+      "gwangju": 2500,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -3342,7 +3356,6 @@
         3600,
         3600,
         3600,
-        3600,
         3500,
         3500,
         3500,
@@ -3393,10 +3406,10 @@
         3450,
         3200,
         3200,
-        3200
+        3200,
+        2500
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -3485,7 +3498,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -3577,7 +3591,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -3589,12 +3603,12 @@
       "colorFrom": "#C5CCD5",
       "colorTo": "#6A7785",
       "unit": "원/kg",
-      "raw": 2646,
+      "raw": 2916,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 2450,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 2700,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         2900,
@@ -3882,12 +3896,12 @@
       "colorFrom": "#B8C0CA",
       "colorTo": "#5C6573",
       "unit": "원/kg",
-      "raw": 2430,
+      "raw": 2484,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 2250,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 2300,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         2650,
@@ -4175,11 +4189,11 @@
       "colorFrom": "#8A95A5",
       "colorTo": "#3F4857",
       "unit": "원/kg",
-      "raw": 367,
+      "raw": 421,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 340,
-      "priceSource": "올메탈",
+      "gwangju": 390,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -4272,10 +4286,9 @@
         340,
         340,
         340,
-        340
+        390
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -4364,7 +4377,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -4456,7 +4470,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -4468,11 +4482,11 @@
       "colorFrom": "#A0AAB8",
       "colorTo": "#5C6573",
       "unit": "원/kg",
-      "raw": 356,
+      "raw": 378,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 330,
-      "priceSource": "올메탈",
+      "gwangju": 350,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -4565,10 +4579,9 @@
         330,
         330,
         330,
-        330
+        350
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -4657,7 +4670,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -4749,7 +4763,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -4761,11 +4775,11 @@
       "colorFrom": "#6B7280",
       "colorTo": "#242A34",
       "unit": "원/kg",
-      "raw": 454,
+      "raw": 470,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 420,
-      "priceSource": "올메탈",
+      "gwangju": 435,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -4858,10 +4872,9 @@
         420,
         420,
         420,
-        420
+        435
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -4950,7 +4963,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -5042,7 +5056,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -5054,11 +5068,11 @@
       "colorFrom": "#C9D2DC",
       "colorTo": "#5A6676",
       "unit": "원/kg",
-      "raw": 1728,
+      "raw": 1750,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 1600,
-      "priceSource": "올메탈",
+      "gwangju": 1620,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -5151,10 +5165,9 @@
         1600,
         1600,
         1600,
-        1600
+        1620
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -5243,7 +5256,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -5335,7 +5349,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -5351,7 +5365,7 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 10600,
-      "priceSource": "올메탈",
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -5368,7 +5382,6 @@
         10800,
         10800,
         10800,
-        10800,
         10600,
         10600,
         10600,
@@ -5436,6 +5449,7 @@
         10700,
         10700,
         10700,
+        10600,
         10600,
         10600,
         10600,
@@ -5447,7 +5461,6 @@
         10600
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -5536,7 +5549,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -5628,7 +5642,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -5640,11 +5654,11 @@
       "colorFrom": "#C9A55A",
       "colorTo": "#6F4E10",
       "unit": "원/kg",
-      "raw": 11124,
+      "raw": 11016,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 10300,
-      "priceSource": "올메탈",
+      "gwangju": 10200,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -5661,7 +5675,6 @@
         10400,
         10400,
         10400,
-        10400,
         10200,
         10200,
         10200,
@@ -5737,10 +5750,10 @@
         10300,
         10300,
         10300,
-        10300
+        10300,
+        10200
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -5829,7 +5842,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -5921,7 +5935,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -5933,12 +5947,12 @@
       "colorFrom": "#B5814E",
       "colorTo": "#4A2D14",
       "unit": "원/kg",
-      "raw": 19440,
+      "raw": 18792,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 18000,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "gwangju": 17400,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         18000,
@@ -6259,8 +6273,8 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 1500,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         1500,
@@ -6552,8 +6566,8 @@
       "rawSource": "추정",
       "change": 0.0,
       "gwangju": 650,
-      "priceSource": "올메탈",
-      "priceEstimated": false,
+      "priceSource": "폴백",
+      "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
         650,
@@ -6841,15 +6855,14 @@
       "colorFrom": "#F0F4F9",
       "colorTo": "#8E9AA6",
       "unit": "원/kg",
-      "raw": 2404424,
+      "raw": 2472124,
       "rawSource": "LME",
-      "change": -5.7,
-      "gwangju": 2163982,
+      "change": 2.8,
+      "gwangju": 2224912,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
-        2385526,
         2419745,
         2411912,
         2422792,
@@ -6938,10 +6951,10 @@
         2370121,
         2340273,
         2295077,
-        2163982
+        2163982,
+        2224912
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -7030,7 +7043,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "LME추정",
@@ -7134,15 +7148,14 @@
       "colorFrom": "#FFD700",
       "colorTo": "#8B6914",
       "unit": "원/kg",
-      "raw": 177735137,
+      "raw": 180336617,
       "rawSource": "LME",
-      "change": -1.2,
-      "gwangju": 172403083,
+      "change": 1.5,
+      "gwangju": 174926518,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
-        183494886,
         186619969,
         186142168,
         186308592,
@@ -7231,10 +7244,10 @@
         175949591,
         175142470,
         174583746,
-        172403083
+        172403083,
+        174926518
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -7323,7 +7336,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "LME추정",
@@ -7427,11 +7441,11 @@
       "colorFrom": "#A8B5C5",
       "colorTo": "#4A5868",
       "unit": "원/kg",
-      "raw": 1944,
+      "raw": 2700,
       "rawSource": "추정",
       "change": 0.0,
-      "gwangju": 1800,
-      "priceSource": "올메탈",
+      "gwangju": 2500,
+      "priceSource": "다이렉트스크랩",
       "priceEstimated": false,
       "defaultMargin": 0.8,
       "history": [
@@ -7448,7 +7462,6 @@
         2800,
         2800,
         2800,
-        2800,
         2000,
         2000,
         2000,
@@ -7524,10 +7537,10 @@
         1800,
         1800,
         1800,
-        1800
+        1800,
+        2500
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -7616,7 +7629,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "올메탈",
@@ -7708,7 +7722,7 @@
         "올메탈",
         "올메탈",
         "올메탈",
-        "올메탈"
+        "다이렉트스크랩"
       ]
     },
     {
@@ -7749,15 +7763,14 @@
       "colorFrom": "#E8E8EC",
       "colorTo": "#9CA3AF",
       "unit": "원/kg",
-      "raw": 69275331,
+      "raw": 70414164,
       "rawSource": "LME",
-      "change": -3.5,
-      "gwangju": 66504318,
+      "change": 1.6,
+      "gwangju": 67597597,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
-        74340539,
         73616733,
         73722329,
         73983642,
@@ -7846,10 +7859,10 @@
         70139986,
         70058192,
         68890296,
-        66504318
+        66504318,
+        67597597
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -7938,7 +7951,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "LME추정",
@@ -8042,15 +8056,14 @@
       "colorFrom": "#D8D9E0",
       "colorTo": "#7A8090",
       "unit": "원/kg",
-      "raw": 47342883,
+      "raw": 48873583,
       "rawSource": "LME",
-      "change": -2.4,
-      "gwangju": 44502310,
+      "change": 3.2,
+      "gwangju": 45941168,
       "priceSource": "LME추정",
       "priceEstimated": true,
       "defaultMargin": 0.8,
       "history": [
-        55983366,
         56191964,
         55922243,
         56282628,
@@ -8139,10 +8152,10 @@
         46730822,
         46165551,
         45605660,
-        44502310
+        44502310,
+        45941168
       ],
       "historyDates": [
-        "2026-07-17",
         "2026-07-18",
         "2026-07-19",
         "2026-07-20",
@@ -8231,7 +8244,8 @@
         "2026-10-12",
         "2026-10-13",
         "2026-10-14",
-        "2026-10-15"
+        "2026-10-15",
+        "2026-10-16"
       ],
       "historySource": [
         "LME추정",
